@@ -1,0 +1,175 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {"text": "Human Development and Median Life Expectancy, 1990-2021", "fontSize": 16, "fontWeight":"bold"},
+    "background":"whitesmoke",
+    "width": "container",
+    "height": 500,
+
+    "params": [
+      {
+          "name": "yearSelection",
+          "value": 2021,
+          "bind":{
+              "input": "range",
+              "min": 1990,
+              "max": 2021,
+              "step": 1,
+              "name": "Year:  "
+          }
+      },
+      {
+        "name": "continentSelection",
+        "value": null,
+        "bind": {
+          "input": "select",
+          "options": [
+            null,
+            "Asia",
+            "Africa",
+            "America",
+            "Europe",
+            "Oceania"
+          ],
+          "labels": [
+            "Show All",
+            "Asia",
+            "Africa",
+            "America",
+            "Europe",
+            "Oceania"
+          ],
+          "name": "Continent: "
+        }
+      }
+    ],
+
+    "data": {"url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/data/Life%20Expectancy%20at%20Birth.csv"},
+
+    "transform": [
+        {
+          "aggregate": [
+            {"op": "median", "field": "1990", "as": "1990"},
+            {"op": "median", "field": "1991", "as": "1991"},
+            {"op": "median", "field": "1992", "as": "1992"},
+            {"op": "median", "field": "1993", "as": "1993"},
+            {"op": "median", "field": "1994", "as": "1994"},
+            {"op": "median", "field": "1995", "as": "1995"},
+            {"op": "median", "field": "1996", "as": "1996"},
+            {"op": "median", "field": "1997", "as": "1997"},
+            {"op": "median", "field": "1998", "as": "1998"},
+            {"op": "median", "field": "1999", "as": "1999"},
+            {"op": "median", "field": "2000", "as": "2000"},
+            {"op": "median", "field": "2001", "as": "2001"},
+            {"op": "median", "field": "2002", "as": "2002"},
+            {"op": "median", "field": "2003", "as": "2003"},
+            {"op": "median", "field": "2004", "as": "2004"},
+            {"op": "median", "field": "2005", "as": "2005"},
+            {"op": "median", "field": "2006", "as": "2006"},
+            {"op": "median", "field": "2007", "as": "2007"},
+            {"op": "median", "field": "2008", "as": "2008"},
+            {"op": "median", "field": "2009", "as": "2009"},
+            {"op": "median", "field": "2010", "as": "2010"},
+            {"op": "median", "field": "2011", "as": "2011"},
+            {"op": "median", "field": "2012", "as": "2012"},
+            {"op": "median", "field": "2013", "as": "2013"},
+            {"op": "median", "field": "2014", "as": "2014"},
+            {"op": "median", "field": "2015", "as": "2015"},
+            {"op": "median", "field": "2016", "as": "2016"},
+            {"op": "median", "field": "2017", "as": "2017"},
+            {"op": "median", "field": "2018", "as": "2018"},
+            {"op": "median", "field": "2019", "as": "2019"},
+            {"op": "median", "field": "2020", "as": "2020"},
+            {"op": "median", "field": "2021", "as": "2021"}
+          ],
+          "groupby": ["Human_Development_Groups", "Continent"]
+        },
+        {
+          "fold": ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"],
+          "as": ["year", "median_life_expectancy"]
+        },
+        {
+          "filter": "datum.Human_Development_Groups !== ''"
+        },
+        {
+          "filter": "datum.year == yearSelection"
+        }
+    ],
+
+    "encoding": {
+      "x": {
+        "field": "median_life_expectancy",
+        "type": "quantitative",
+        "scale": {"domain": [0, 90]},
+        "axis": {
+            "title": "Median Life Expectancy (years)",
+            "grid": true,
+            "titleFontSize": 13,
+            "labelFontSize": 11
+            }
+        },
+
+      "y": {
+        "field": "Human_Development_Groups", 
+        "type": "nominal",
+        "axis": {
+            "title": "Human Development Group",
+            "titleFontSize": 13,
+            "labelFontSize": 11
+          },
+          "sort": {"op": "sum", "field": "median_life_expectancy", "order": "descending"}
+        }
+
+      },
+
+      "layer": [
+        {
+          "mark": {
+            "type": "circle",
+            "opacity": 0.8,
+            "stroke": "black",
+            "strokeWidth": 1,
+            "size": 200
+          },
+          "encoding": {
+            "color": {
+              "field": "Continent", 
+              "type": "nominal",
+              "scale":{
+                "range": ["#4daf4a", "#377eb8", "#e41a1c", "#984ea3", "#ff7f00"]
+              },
+              "legend": {
+                  "title": "Continent",
+                  "titleFontSize": 12,
+                  "labelFontSize": 11
+              }
+              },
+              "opacity": {
+                "condition": {
+                  "test": "continentSelection === null || datum.Continent === continentSelection",
+                  "value": 0.8
+                },
+                "value": 0.15
+              },
+              "tooltip": [
+                      {"field": "Continent", "type": "nominal"},
+                      {"field": "median_life_expectancy", "type": "quantitative", "format": ".1f", "title": "Median Lifespan (years)"}
+              ]
+            }
+          },
+          {
+            "mark": {
+              "type": "text",
+              "align": "left",
+              "fontWeight": 600,
+              "lineBreak": "\n"
+          },
+          "encoding": {
+              "text":{ "value": "The median life expectancy of people on each continent appears\nto be significantly influenced by human development.\nHigher life expectancy is the result of a higher Human Development Index."},
+              "color": { "value": "grey"},
+              "size": {"value": 11},
+              "x": { "value": 10},
+              "y": { "value": 120}
+          }
+          }
+        ]
+      }

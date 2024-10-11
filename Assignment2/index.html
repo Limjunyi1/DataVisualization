@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Pure -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+
+  <!-- Google Fonts-->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Titillium+Web&display=swap" rel="stylesheet">
+
+  <!-- Style file -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+
+</head>
+<body>
+    <div class="webpage">
+        <!-- Title S -->
+        <h1>Global Life Expectancy <img src="../Assignment2/data/human.png" id="life_image"/></h1>
+        <!-- Title E -->
+        
+        <!-- Intro S -->
+        <div id="Intro_Title" class="pure-u-1">
+            <h2>What is Life Expectancy</h2>
+        </div>
+
+        <div class="pure-u-1">
+            <p id="intro">The <b>most important</b> statistic for measuring <b>population health</b> is life expectancy.
+                Life expectancy captures mortality across the whole life course, It provides information on the typical death age for a population.
+            </p>
+            <p id="intro">
+                Visualization's goal is to examine how life expectancy has changed globally between <b>1990 and 2021</b>. The top five nations with the 
+                greatest increases in life expectancy, the average age of people on each continent, and the relationship between human development and 
+                the median life expectancy, among other topics.
+            </p>
+        </div>
+        <!-- Intro E -->
+
+        <!-- World Map S -->
+        <div class="pure-g">
+            <div class="pure-u-2-3" id="world_map">
+            </div>
+            <div class="pure-u-1-3">
+                <div class="left_focus">
+                    <h2>How are life expectancies changing globally?</h2>
+                    <div class="paragraph">
+                        <p>As time went on, it became apparent that life expectancy was steadily rising around the world, with many <span id="purple"><b>European nations</b></span> surpassing the <b>80-year</b> milestone in the year <b>2010</b>.</p>
+                    </div>
+                    <div class="paragraph">
+                        <p>In the year <b>2019</b>, a devastating virus known as the <b>Covid-19</b> spread throughout the whole planet, significantly lowering life expectancy in the years that followed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- World Map E -->
+
+        <!-- Most Increases S -->
+        <div class="pure-g">
+            <div class="pure-u-2-3" id="most_increases"></div>
+            <div class="pure-u-1-3">
+                <div class="left_focus">
+                    <h2>Whose life expectancy has increased the most?</h2>
+                    <div class="paragraph">
+                        <p><span id="green"><b>Africa</b></span> has experienced the biggest increase in life expectancy globally, taking 4 of the top 5 spots. 
+                            <span id="green"><b>South Sudan</b></span> has seen the greatest gain in life expectancy among African nations, 
+                            going from just <b>29.9</b> years to <b>55.0</b> years during the course of the 31 years between <b>1990 and 2021</b>. 
+                            <span id="green"><b>Liberia, Timor-Leste, Ethiopia, and Angola</b></span> are next in line.
+                        </p>
+                    </div>
+                    <div class="paragraph">
+                        <p><span id="red"><b>Timor-Leste</b></span>, one of the countries in <span id="red"><b>Asia</b></span>, also made it into the list.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Most Increases E -->
+
+        <!-- AVG life and continent S -->
+        <div class="pure-g">
+            <div class="pure-u-2-3" id="avg_life_cont">
+            </div>
+
+            <div class="pure-u-1-3">
+                <div class="left_focus">
+                    <h2>What is the life expectancy on different continents?</h2>
+                    <div class="paragraph">
+                        <p>Before <span id="red"><b>Asia</b></span> overtook <span id="orange"><b>Oceania</b></span> in <b>1998</b>, life expectancy in both regions was fairly close.</p>
+                    </div>
+                    <div class="paragraph">
+                        <p>After 1998, the life expectancy in <span id="red"><b>Asia</b></span> and <span id="green"><b>Africa</b></span> began to rise quickly, and by 2018, 
+                            it had already caught up to that in <span id="blue"><b>America (74.6 years)</b></span>. And in <b>2019</b>, 
+                            <span id="red"><b>Asia</b></span> overtook <span id="blue"><b>America</b></span> to take over as the continent with the second-highest life expectancy.
+                        </p>
+                    </div>
+                    <div class="paragraph">
+                        <p><span id="orange"><b>Oceania's</b></span> life expectancy increased steadily between 1990 and 2021.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- AVG life and continent E -->
+
+        <!-- HD and Median LE S -->
+        <div class="pure-g">
+            <div class="pure-u-2-3" id="hd_and_le">
+            </div>
+
+            <div class="pure-u-1-3">
+                <div class="left_focus">
+                    <h2>Is the median life expectancy affected by human development?</h2>
+                    <div class="paragraph">
+                        <p>According to the median life expectancy, it is where <b>50%</b> of people will pass away before they reach that age and <b>50%</b> will survive past it.</p>
+                    </div>
+                    <div class="paragraph">
+                        <p>The chart shows that, when grouped by continent, the nations with the highest rankings for human development will also have the highest median life expectancies. 
+                            This demonstrated that people in countries with <b>high human development</b> indices are often healthier and better off than those in less fortunate countries 
+                            with lower indices of human development.
+                        </p>
+                    </div>
+                    <div class="paragraph2">
+                        <h3>Observation:</h3>
+                        <p>Within the high human development group, <span id="orange"><b>Oceania</b></span> always has the <b>highest</b> median life expectancies during the period of 1990-2021</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- HD and Median LE E -->
+
+        <!-- smallMulti S -->
+        <div class="pure-g">
+            <div id="Aus_Title" class="pure-u-1">
+                <h2>Australia's Outstanding Performance</h2>
+            </div>
+
+            <div class="pure-u-1">
+                <div class="Aus_desc">
+                    <p id="intro">Despite the fact that after 2019 the majority of the world's life expectancy fell because of the widespread COVID-19 infection. 
+                        <span id="orange"><b>Australia's</b></span> performance on the life expectancy indicator is strong and healthy, and it doesn't appear that the virus has had an impact. 
+                        The trends in Australia's life expectancy are depicted in the small multiple maps below, which span the years 1990 through 2021 with<br>5-year 
+                        intervals between 1990-2020 and 1-year intervals between 2020-2021.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pure-u-1" id="small_multi">
+            </div>
+
+        </div>
+
+        <div class="pure-u-1">
+            <p>This visualisation is created by <a href="https://github.com/LimJunYi02">Lim Jun Yi</a>. The data is sourced from <a href="https://www.kaggle.com/datasets/iamsouravbanerjee/life-expectancy-at-birth-across-the-globe">Kaggle</a>.</p>
+        </div>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        let tooltipOptions = {
+            sanitize: (value) => {
+              return "<strong>" + value + "</strong>"
+            },
+        };
+
+        var vis1 = "json_files/life_expectancy_around_the_world.vg.json";
+        var vis2 = "json_files/top5_increases_life_expectancy.vg.json"
+        var vis3 = "json_files/average_life_continents.vg.json"
+        var vis4 = "json_files/HD_and_LE.vg.json"
+        var vis5 = "json_files/australia_smallMultiple.vg.json"
+
+        vegaEmbed('#world_map', vis1, {tooltip: tooltipOptions, "actions": false, renderer:'svg'}).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        vegaEmbed('#most_increases', vis2, {tooltip: tooltipOptions, "actions": false, renderer:'svg'}).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        vegaEmbed('#avg_life_cont', vis3, {tooltip: tooltipOptions, "actions": false, renderer:'svg'}).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        vegaEmbed('#hd_and_le', vis4, {tooltip: tooltipOptions, "actions": false, renderer:'svg'}).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        vegaEmbed('#small_multi', vis5, {tooltip: tooltipOptions, "actions": false, renderer:'svg'}).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+    </script>
+    
+
+</body>
+</html>

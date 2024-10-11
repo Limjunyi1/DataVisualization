@@ -1,0 +1,157 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {"text": "Average Life Expectancy of different continents, 1990-2021", "fontSize": 16, "fontWeight":"bold"},
+    "background":"whitesmoke",
+    "width": "container",
+    "height": 500,
+
+    "data": {"url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/data/Life%20Expectancy%20at%20Birth.csv"},
+
+    "params": [
+        {
+          "name": "yearSelection",
+          "value": 2021,
+          "bind": {
+            "input": "range",
+            "min": 1990,
+            "max": 2021,
+            "step": 1,
+            "name": "Year: "
+          }
+        },
+        {
+          "name": "continentSelection",
+          "value": null,
+          "bind": {
+            "input": "select",
+            "options": [
+              null,
+              "Asia",
+              "Africa",
+              "America",
+              "Europe",
+              "Oceania"
+            ],
+            "labels": [
+              "Show All",
+              "Asia",
+              "Africa",
+              "America",
+              "Europe",
+              "Oceania"
+            ],
+            "name": "Continent: "
+          }
+        }
+      ],
+
+    "transform": [
+        {
+          "aggregate": [
+            {"op": "mean", "field": "1990", "as": "1990"},
+            {"op": "mean", "field": "1991", "as": "1991"},
+            {"op": "mean", "field": "1992", "as": "1992"},
+            {"op": "mean", "field": "1993", "as": "1993"},
+            {"op": "mean", "field": "1994", "as": "1994"},
+            {"op": "mean", "field": "1995", "as": "1995"},
+            {"op": "mean", "field": "1996", "as": "1996"},
+            {"op": "mean", "field": "1997", "as": "1997"},
+            {"op": "mean", "field": "1998", "as": "1998"},
+            {"op": "mean", "field": "1999", "as": "1999"},
+            {"op": "mean", "field": "2000", "as": "2000"},
+            {"op": "mean", "field": "2001", "as": "2001"},
+            {"op": "mean", "field": "2002", "as": "2002"},
+            {"op": "mean", "field": "2003", "as": "2003"},
+            {"op": "mean", "field": "2004", "as": "2004"},
+            {"op": "mean", "field": "2005", "as": "2005"},
+            {"op": "mean", "field": "2006", "as": "2006"},
+            {"op": "mean", "field": "2007", "as": "2007"},
+            {"op": "mean", "field": "2008", "as": "2008"},
+            {"op": "mean", "field": "2009", "as": "2009"},
+            {"op": "mean", "field": "2010", "as": "2010"},
+            {"op": "mean", "field": "2011", "as": "2011"},
+            {"op": "mean", "field": "2012", "as": "2012"},
+            {"op": "mean", "field": "2013", "as": "2013"},
+            {"op": "mean", "field": "2014", "as": "2014"},
+            {"op": "mean", "field": "2015", "as": "2015"},
+            {"op": "mean", "field": "2016", "as": "2016"},
+            {"op": "mean", "field": "2017", "as": "2017"},
+            {"op": "mean", "field": "2018", "as": "2018"},
+            {"op": "mean", "field": "2019", "as": "2019"},
+            {"op": "mean", "field": "2020", "as": "2020"},
+            {"op": "mean", "field": "2021", "as": "2021"}
+          ],
+          "groupby": ["Continent"]
+        },
+        {
+            "fold": ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"],
+            "as": ["year", "avg_life_expectancy"]
+        },
+        {
+            "filter": "datum.year <= yearSelection"
+        }
+    ],
+
+    "encoding": {
+        "x": {"field": "year", "type": "ordinal", 
+          "axis": {
+            "title": "Year",
+            "titleFontWeight":"bold",
+            "titleFontSize": 13,
+            "labelFontSize": 11
+          }
+        },
+        "y": {"field": "avg_life_expectancy", "type": "quantitative", "scale": {"domain": [0, 85]}, 
+          "axis": {
+            "title": "Average Life Expectancy (years)",
+            "titleFontWeight":"bold",
+            "titleFontSize": 13,
+            "labelFontSize": 11
+          }
+        }
+      },
+
+    "layer": [
+        {
+            "mark": {"type": "line", "point": {"filled": true, "size": 50}},
+            "encoding": {
+            "color": {"field": "Continent", "type": "nominal", 
+              "scale":{
+                "range": ["#4daf4a", "#377eb8", "#e41a1c", "#984ea3", "#ff7f00"]
+              },
+              "legend": {
+                "title": "Continent",
+                "titleFontSize": 12,
+                "labelFontSize": 11
+            }
+            },
+            "opacity": {
+              "condition": {
+                "test": "continentSelection === null || datum.Continent === continentSelection",
+                "value": 0.8
+              },
+              "value": 0.15
+            },
+            "tooltip": [
+                {"field": "Continent", "type": "nominal"},
+                {"field": "avg_life_expectancy", "type": "quantitative", "format": ".1f", "title": "Average Lifespan (years)"}
+            ]
+            }
+        },
+        {
+          "mark": {
+              "type": "text",
+              "align": "left",
+              "fontWeight": 600,
+              "lineBreak": "\n"
+          },
+          "encoding": {
+              "text":{ "value": "Interesting finding:\nUp until 1998, the average life expectancy in Asia and Oceania was very similar,\nbut after that point, Asia's average life expectancy rapidly outpaced Oceania and drew closer to America."},
+              "color": { "value": "grey"},
+              "size": {"value": 11},
+              "x": { "value": 20},
+              "y": { "value": 450}
+          }
+        }
+      ]
+}

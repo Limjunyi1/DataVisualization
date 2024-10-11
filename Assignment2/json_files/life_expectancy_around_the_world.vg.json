@@ -1,0 +1,160 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {"text": "Life Expectancy Around the World, 1990-2021", "fontSize": 16, "fontWeight":"bold"},
+    "background":"whitesmoke",
+    "width": "container",
+    "height": 500,
+
+    "projection": { "type": "equalEarth", "center": {"expr": "center_to"}, "scale": { "expr": "zoom_level" }},
+
+    "params": [
+        {
+            "name": "yearSelection",
+            "value": 1990,
+            "bind":{
+                "input": "range",
+                "min": 1990,
+                "max": 2021,
+                "step": 1,
+                "name": "Year:  "
+            }
+        },
+        {
+            "name": "center_to",
+            "value": [0, 0],
+            "bind": {
+                "input": "select",
+                "options": [
+                    [102, 4.2],
+                    [0, 0],
+                    [15, 45],
+                    [15, 0],
+                    [60, 30],
+                    [115, 15],
+                    [130, -25],
+                    [-100, 50],
+                    [-90, 10],
+                    [-65, -20]
+                ],
+                "labels": ["Malaysia", "Center", "Europe", "Africa", "Middle East Asia", "East Asia", "Oceania", "North America", "Central America", "South America"],
+                "name": "Map Centre: "
+            }
+        },
+        {
+            "name": "zoom_level",
+            "value": 150,
+            "bind": {
+                "input": "range",
+                "min": 150,
+                "max": 700,
+                "step": 10,
+                "name": "Zoom: "
+            }
+        }
+    ],
+
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/json_files/ne_110m.json",
+                "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "transform": [
+                {
+                "calculate": "'Data is not available in ' + datum.properties.NAME",
+                "as": "note"
+                }
+            ],
+            "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"},
+            "encoding": {"tooltip": {"field": "note"}}
+        },
+
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/json_files/oceans.json",
+                "format": {"type": "topojson", "feature": "oceans"}
+            },
+            "mark": {"type": "geoshape", "fill": "skyblue"}
+        },
+
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/json_files/ne_110m.json",
+                "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+            },
+            "mark": {"type": "geoshape", "fill": null, "stroke": "lightgray"}
+        },
+
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/data/Life%20Expectancy%20at%20Birth.csv"
+            },
+            "transform": [
+                {
+                    "fold": ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"],
+                    "as": ["year", "life_expectancy"]
+                },
+                {
+                    "lookup": "ISO3",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/json_files/ne_110m.json",
+                            "format": {
+                                "type": "topojson",
+                                "feature": "ne_110m_admin_0_countries"
+                            }
+                        },
+                        "key": "properties.ISO_A3"
+                    },
+                    "as": "geo"
+                },
+                {"filter": "datum.year == yearSelection"}
+            ],
+            "mark": { "type": "geoshape", "stroke": "#cdcdcd"},
+            "encoding": {
+                "shape": { "field": "geo", "type": "geojson" },
+                "color": {
+                    "field": "life_expectancy",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "threshold",
+                        "domain": [60,65,70,75,80],
+                        "range": ["#ffffcc", "#d9f0a3", "#addd8e", "#78c679", "#31a354", "#006837"]
+                      },
+                      "legend": {
+                        "title": "Life Expectancy (years)",
+                        "titleFontSize": 12,
+                        "labelFontSize": 11
+                      }
+                },
+                "tooltip" : [
+                    {"field": "geo.properties.NAME", "type": "nominal", "title": "Country"},
+                    {"field": "life_expectancy", "type": "quantitative", "format": ".1f", "title": "Life Expectancy (years)"},
+                    {"field": "Human_Development_Groups", "type": "nominal", "title": "Human Development Group"},
+                    {"field": "HDI_Rank_(2021)", "type": "nominal", "title": "HDI Ranking (2021)"},
+                    {"field": "UNDP_Developing_Regions", "type": "nominal", "title": "UNDP Regions"}
+                ]
+            }
+        },
+
+        {
+            "data": { "url": "https://raw.githubusercontent.com/LimJunYi02/FIT3179/main/Assignment2/data/Life%20Expectancy%20at%20Birth.csv"},
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "fontWeight": 600,
+                "lineBreak": "\n"
+            },
+            "encoding": {
+                "text":{ "value": "The widespread coronavirus epidemic\nknown as Covid-19 caused a considerable\ndecline in life expectancy after the year 2019."},
+                "color": { "value": "grey"},
+                "size": {"value": 11},
+                "x": { "value": 300},
+                "y": { "value": 375}
+            }
+        }
+    ],
+    "config": {
+        "view": {"stroke": null}
+    }
+}
